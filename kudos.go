@@ -11,11 +11,11 @@ import (
 func main() {
 
 	models.InitDB("./kudos.db")
-	selectMode(os.Args)
+	SelectMode(os.Args)
 
 }
 
-func selectMode(args []string) {
+func SelectMode(args []string) {
 
 	if len(args) > 1 {
 		switch args[1] {
