@@ -41,13 +41,15 @@ func SelectMode(args []string) {
 			} else {
 				models.GetAllKudos()
 			}
+		case "view":
+			models.GetAllKudos()
 		case "reset":
 			models.ResetDB()
 		default:
 			fmt.Println("Invalid argument.")
 		}
 	} else {
-		fmt.Println("Available commands: serve, post, get, reset")
+		fmt.Println("Available commands: serve, get, post, view, reset")
 	}
 
 }
