@@ -3,7 +3,15 @@ package models
 import (
 	"fmt"
 	"log"
+	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
+
+func Default(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Nothing here :)"))
+}
 
 func GetAllKudos() {
 
@@ -25,7 +33,7 @@ func GetAllKudos() {
 
 }
 
-func GetKudos(url string) int {
+func getKudoCount(url string) int {
 
 	rows, err := db.Query("SELECT * FROM kudos WHERE kudos.url = (?)", url)
 	checkErr(err)
@@ -48,9 +56,22 @@ func GetKudos(url string) int {
 	return result.Kudos
 }
 
-func PostKudos(url string) {
+func GetKudos(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	url := params["url"]
 
-	doesUrlExist := GetKudos(url)
+	kudos := getKudoCount(url)
+	kudosStr := strconv.Itoa(kudos)
+
+	log.Printf("Requested URL %s (%d Kudos)", url, kudos)
+	w.Write([]byte(kudosStr))
+}
+
+func PostKudos(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	url := params["url"]
+
+	doesUrlExist := getKudoCount(url)
 
 	if doesUrlExist != 0 {
 		log.Printf("%s is already known.", url)
@@ -63,7 +84,10 @@ func PostKudos(url string) {
 		id, err := res.LastInsertId()
 		checkErr(err)
 
+		idStr := strconv.FormatInt(id, 10)
+
 		log.Printf("Kudos for URL: %s with ID #%d given.", url, id)
+		w.Write([]byte("Kudos for URL: " + url + " with ID #" + idStr + " given."))
 	} else {
 		stmt, err := db.Prepare("INSERT INTO kudos(url, kudos) values (?, 1)")
 		checkErr(err)
