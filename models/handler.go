@@ -10,7 +10,9 @@ import (
 )
 
 func Default(w http.ResponseWriter, r *http.Request) {
+
 	w.Write([]byte("Nothing here :)"))
+
 }
 
 func GetAllKudos() {
@@ -54,9 +56,11 @@ func GetKudoCount(url string) int {
 	log.Printf("Requested URL %s (%d Kudos)", url, result.Kudos)
 
 	return result.Kudos
+
 }
 
 func PostKudoCount(url string) int {
+
 	doesUrlExist := GetKudoCount(url)
 
 	var id int
@@ -87,26 +91,28 @@ func PostKudoCount(url string) int {
 	}
 
 	return id
+
 }
 
 func GetKudos(w http.ResponseWriter, r *http.Request) {
+
 	params := mux.Vars(r)
 	url := params["url"]
 
-	kudos := GetKudoCount(url)
-	kudosStr := strconv.Itoa(kudos)
+	kudos := strconv.Itoa(GetKudoCount(url))
 
 	log.Printf("Requested URL %s (%d Kudos)", url, kudos)
-	w.Write([]byte(kudosStr))
+	w.Write([]byte(kudos))
+
 }
 
 func PostKudos(w http.ResponseWriter, r *http.Request) {
+
 	params := mux.Vars(r)
 	url := params["url"]
 
-	id := PostKudoCount(url)
-	idStr := strconv.Itoa(id)
+	id := strconv.Itoa(PostKudoCount(url))
 
-	w.Write([]byte("Kudos for URL: " + url + " with ID #" + idStr + " given."))
+	w.Write([]byte("Kudos for URL: " + url + " with ID #" + id + " given."))
 
 }
