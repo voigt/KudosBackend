@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"playground/KudosBackend/models"
 
 	"github.com/gorilla/mux"
@@ -13,30 +15,28 @@ func main() {
 
 	models.InitDB("./kudos.db")
 
-	r := mux.NewRouter()
-	r.HandleFunc("/", models.Default).Methods("GET")
-	r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.GetKudos).Methods("GET")
-	r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.PostKudos).Methods("POST")
-	//r.HandleFunc("/products", ProductsHandler)
-	http.Handle("/", r)
-
-	log.Println("Listening...")
-	http.ListenAndServe(":3000", nil)
-
-	// SelectMode(os.Args)
+	SelectMode(os.Args)
 
 }
 
-/*
 func SelectMode(args []string) {
 
 	if len(args) > 1 {
 		switch args[1] {
+		case "serve":
+			r := mux.NewRouter()
+			r.HandleFunc("/", models.Default).Methods("GET")
+			r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.GetKudos).Methods("GET")
+			r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.PostKudos).Methods("POST")
+			http.Handle("/", r)
+
+			log.Println("Listening...")
+			http.ListenAndServe(":3000", nil)
 		case "post":
-			models.PostKudos(args[2])
+			models.PostKudoCount(args[2])
 		case "get":
 			if len(args[1:]) > 1 {
-				kudoCount := models.GetKudos(args[2])
+				kudoCount := models.GetKudoCount(args[2])
 				fmt.Println(kudoCount)
 			} else {
 				models.GetAllKudos()
@@ -47,8 +47,7 @@ func SelectMode(args []string) {
 			fmt.Println("Invalid argument.")
 		}
 	} else {
-		fmt.Println("Available commands: post, get, reset")
+		fmt.Println("Available commands: serve, post, get, reset")
 	}
 
 }
-*/

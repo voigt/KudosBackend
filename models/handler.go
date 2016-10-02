@@ -33,7 +33,7 @@ func GetAllKudos() {
 
 }
 
-func getKudoCount(url string) int {
+func GetKudoCount(url string) int {
 
 	rows, err := db.Query("SELECT * FROM kudos WHERE kudos.url = (?)", url)
 	checkErr(err)
@@ -56,22 +56,10 @@ func getKudoCount(url string) int {
 	return result.Kudos
 }
 
-func GetKudos(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	url := params["url"]
+func PostKudoCount(url string) int {
+	doesUrlExist := GetKudoCount(url)
 
-	kudos := getKudoCount(url)
-	kudosStr := strconv.Itoa(kudos)
-
-	log.Printf("Requested URL %s (%d Kudos)", url, kudos)
-	w.Write([]byte(kudosStr))
-}
-
-func PostKudos(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	url := params["url"]
-
-	doesUrlExist := getKudoCount(url)
+	var id int
 
 	if doesUrlExist != 0 {
 		log.Printf("%s is already known.", url)
@@ -84,10 +72,7 @@ func PostKudos(w http.ResponseWriter, r *http.Request) {
 		id, err := res.LastInsertId()
 		checkErr(err)
 
-		idStr := strconv.FormatInt(id, 10)
-
 		log.Printf("Kudos for URL: %s with ID #%d given.", url, id)
-		w.Write([]byte("Kudos for URL: " + url + " with ID #" + idStr + " given."))
 	} else {
 		stmt, err := db.Prepare("INSERT INTO kudos(url, kudos) values (?, 1)")
 		checkErr(err)
@@ -100,5 +85,28 @@ func PostKudos(w http.ResponseWriter, r *http.Request) {
 
 		log.Printf("Created URL: %s with ID #%d", url, id)
 	}
+
+	return id
+}
+
+func GetKudos(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	url := params["url"]
+
+	kudos := GetKudoCount(url)
+	kudosStr := strconv.Itoa(kudos)
+
+	log.Printf("Requested URL %s (%d Kudos)", url, kudos)
+	w.Write([]byte(kudosStr))
+}
+
+func PostKudos(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	url := params["url"]
+
+	id := PostKudoCount(url)
+	idStr := strconv.Itoa(id)
+
+	w.Write([]byte("Kudos for URL: " + url + " with ID #" + idStr + " given."))
 
 }
