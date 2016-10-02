@@ -32,7 +32,7 @@ func PopulateDB() {
 
 	// creates table
 	sqlStmt := `
-	create table kudos (id integer not null primary key autoincrement, name text);
+	create table kudos (id integer not null primary key autoincrement, url text, kudos integer);
 	`
 
 	_, err := db.Exec(sqlStmt)
