@@ -1,6 +1,6 @@
 package models
 
-// Idea from http://thenewstack.io/make-a-restful-json-api-go/
+// Idea for the logger from http://thenewstack.io/make-a-restful-json-api-go/
 import (
 	"log"
 	"net/http"
