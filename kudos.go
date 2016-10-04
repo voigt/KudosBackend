@@ -25,7 +25,7 @@ func SelectMode(args []string) {
 		switch args[1] {
 		case "serve":
 			r := mux.NewRouter()
-			r.HandleFunc("/", models.Default).Methods("GET")
+			r.HandleFunc("/", models.GetAllKudos).Methods("GET")
 			r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.GetKudos).Methods("GET")
 			r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.PostKudos).Methods("POST")
 			http.Handle("/", r)
@@ -39,10 +39,10 @@ func SelectMode(args []string) {
 				kudoCount := models.GetKudoCount(args[2])
 				fmt.Println(kudoCount)
 			} else {
-				models.GetAllKudos()
+				//models.GetAllKudos()
 			}
 		case "view":
-			models.GetAllKudos()
+			//models.GetAllKudos()
 		case "reset":
 			models.ResetDB()
 		default:
