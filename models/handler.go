@@ -31,10 +31,13 @@ func GetAllKudos(w http.ResponseWriter, r *http.Request) {
 		websites = append(websites, website)
 
 	}
-	json.NewEncoder(w).Encode(websites)
 
 	err = rows.Err()
 	checkErr(err)
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(websites)
 
 }
 
@@ -100,6 +103,8 @@ func GetKudos(w http.ResponseWriter, r *http.Request) {
 
 	website = GetKudoCount(url)
 
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(website)
 
 }
@@ -113,7 +118,8 @@ func PostKudos(w http.ResponseWriter, r *http.Request) {
 
 	website = PostKudoCount(website.Url)
 
-	//w.Write([]byte("Kudos for URL: " + website.Url + " with ID #" + id + " given."))
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(website)
 
 }
