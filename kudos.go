@@ -7,7 +7,6 @@ import (
 	"os"
 	"playground/KudosBackend/models"
 
-	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -24,14 +23,12 @@ func SelectMode(args []string) {
 	if len(args) > 1 {
 		switch args[1] {
 		case "serve":
-			r := mux.NewRouter()
-			r.HandleFunc("/", models.GetAllKudos).Methods("GET")
-			r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.GetKudos).Methods("GET")
-			r.HandleFunc("/{url:blog.christophvoigt.com/[a-z|A-Z|-]+}", models.PostKudos).Methods("POST")
-			http.Handle("/", r)
+
+			router := models.NewRouter()
 
 			log.Println("Listening...")
-			http.ListenAndServe(":3000", nil)
+			log.Fatal(http.ListenAndServe(":3000", router))
+
 		case "post":
 			models.PostKudoCount(args[2])
 		case "get":
