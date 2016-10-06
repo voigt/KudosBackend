@@ -5,7 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"playground/KudosBackend/models"
+
+	"KudosBackend/models"
 
 	_ "github.com/mattn/go-sqlite3"
 )
