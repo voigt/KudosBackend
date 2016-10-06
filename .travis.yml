@@ -13,8 +13,8 @@ default:
 #  - go fmt ./...
 #  - go vet $(go list ./...)
 
-#script:
-#  - sh testCoverage.sh
+script:
+  - sh testCoverage.sh
 
-#after_success:
-#  - bash <(curl -s https://codecov.io/bash)
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
