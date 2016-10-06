@@ -1,4 +1,4 @@
-# Backend to give some Kudos ![build status](https://travis-ci.org/voigt/KudosBackend.svg?branch=master)
+# Backend to give some Kudos [![Build Status](https://travis-ci.org/voigt/KudosBackend.svg?branch=master)](https://travis-ci.org/voigt/KudosBackend)
 
 Chill - not much here yet.
 
