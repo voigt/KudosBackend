@@ -15,7 +15,7 @@ func TestSelectMode(t *testing.T) {
 			{["sqlite", "reset"]},
 
 		}
+		t.Error("bla")
 	*/
 
-	t.Error("bla")
 }

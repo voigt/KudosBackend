@@ -15,9 +15,9 @@ func TestGetAllKudos(t *testing.T) {
 			{["sqlite", "reset"]},
 
 		}
+		t.Error("bla")
 	*/
 
-	t.Error("bla")
 }
 
 func TestGetKudos(t *testing.T) {
