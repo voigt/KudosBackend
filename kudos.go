@@ -1,11 +1,12 @@
 package main
 
 import (
-	"KudosBackend/models"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/voigt/KudosBackend/models"
 
 	_ "github.com/mattn/go-sqlite3"
 )
